@@ -1,17 +1,25 @@
-# 🎂 CakeTalk – Prototype README
+# CakeTalk – Prototype README
 
 **Course:** CS 422 | **Group:** CakeTalk  
 **Project:** Designing the Perfect Wedding Cake, Without the Miscommunication
 
 ---
 
-## 📋 Overview
+## Overview
 
-CakeTalk is a high-fidelity web prototype that walks users through designing a custom wedding cake — covering budget, venue, flavor, fillings, visual design, and bakery selection — all in one guided flow.
+CakeTalk is a high fidelity web prototype that walks users through designing a custom wedding cake... covering budget, venue, flavor, fillings, visual design, and bakery selection all in one guided flow.
 
 ---
 
-## 💻 Platform & Requirements
+## Group Members
+
+- Ushnah Hussain — uhuss2@uic.edu  
+- Areli Celestin — acele2@uic.edu  
+- Alexa Jimenez — ajime72@uic.edu  
+- Anjali Viswan — avisw2@uic.edu  
+- June Hong — hhong43@uic.edu  
+
+## Platform & Requirements
 
 | Detail | Info |
 |---|---|
@@ -23,7 +31,7 @@ CakeTalk is a high-fidelity web prototype that walks users through designing a c
 
 ---
 
-## 🚀 How to Run It
+## How to Run It
 
 ### Option A — Just double-click (easiest)
 1. Download `caketalk.html`
@@ -39,7 +47,7 @@ CakeTalk is a high-fidelity web prototype that walks users through designing a c
 
 ---
 
-## 🔐 How to Log In
+## How to Log In
 
 Use any credentials — the login is a prototype (not real authentication):
 
@@ -50,7 +58,7 @@ Click **Sign In** to enter the app.
 
 ---
 
-## 🗺️ Walkthrough — Core User Flow
+## Walkthrough — Core User Flow
 
 Once logged in, follow these steps:
 
@@ -68,7 +76,7 @@ Once logged in, follow these steps:
 
 ---
 
-## 🔁 Other Things You Can Try
+## Other Things You Can Try
 
 - **Saved Cakes** — On the dashboard, click the cake thumbnails or "View Saved →" to see previously saved designs
 - **Bakery Search** — On the Thank You screen, enter a zip code and click Search, then hit "Send Invoice" on any bakery
@@ -77,9 +85,7 @@ Once logged in, follow these steps:
 
 ---
 
-## ⚠️ Shallow Parts (Canned / Not Fully Implemented)
-
-Per GR4 requirements, the following are simulated:
+## Shallow Parts (Canned / Not Fully Implemented)
 
 | Feature | Status |
 |---|---|
@@ -93,17 +99,7 @@ Per GR4 requirements, the following are simulated:
 
 ---
 
-## 👥 Group Members
-
-- Ushnah Hussain — uhuss2@uic.edu  
-- Areli Celestin — acele2@uic.edu  
-- Alexa Jimenez — ajime72@uic.edu  
-- Anjali Viswan — avisw2@uic.edu  
-- June Hong — hhong43@uic.edu  
-
----
-
-## 📁 File Structure
+## File Structure
 
 ```
 caketalk.html   ← the entire prototype (open this in your browser)
