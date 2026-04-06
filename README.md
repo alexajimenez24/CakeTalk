@@ -105,7 +105,3 @@ Once logged in, follow these steps:
 caketalk.html   ← the entire prototype (open this in your browser)
 README.md       ← you are here
 ```
-
----
-
-> **Note for evaluators:** Do not resize the browser window during testing — the prototype is designed for a standard desktop viewport (~1280px wide). The prototype will remain unchanged after submission until grades are released.
