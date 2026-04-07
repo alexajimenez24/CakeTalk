@@ -22,8 +22,31 @@ const fillingOptions = [
   },
   {
     id: "none",
-    label: "None (will default to frosting)",
+    label: "None",
     defaultText: ""
+  }
+];
+
+const frostingOptions = [
+  {
+    id: "buttercream",
+    label: "Buttercream",
+    defaultText: "default: vanilla buttercream"
+  },
+  {
+    id: "cream-cheese",
+    label: "Cream Cheese",
+    defaultText: "default: classic cream cheese"
+  },
+  {
+    id: "whipped-cream",
+    label: "Whipped Cream",
+    defaultText: "default: heavy whipping cream"
+  },
+  {
+    id: "swiss-meringue",
+    label: "Swiss Meringue",
+    defaultText: "default: vanilla swiss meringue"
   }
 ];
 
@@ -51,6 +74,14 @@ export default function FillingsPage() {
     curd: "default: lemon curd",
     jam: "default: strawberry jam"
   });
+  const [selectedFrosting, setSelectedFrosting] = useState("");
+  const [frostingSpecs, setFrostingSpecs] = useState({
+    buttercream: "default: vanilla buttercream",
+    "cream-cheese": "default: classic cream cheese",
+    "whipped-cream": "default: heavy whipping cream",
+    "swiss-meringue": "default: vanilla swiss meringue"
+  });
+  const [fondantChecked, setFondantChecked] = useState(false);
   const [cakeColors, setCakeColors] = useState([]);
   const [showColorMenu, setShowColorMenu] = useState(false);
   const [tiers, setTiers] = useState(3);
@@ -67,6 +98,18 @@ export default function FillingsPage() {
 
     if (savedDraft.fillingSpecs) {
       setFillingSpecs(savedDraft.fillingSpecs);
+    }
+
+    if (savedDraft.selectedFrosting) {
+      setSelectedFrosting(savedDraft.selectedFrosting);
+    }
+
+    if (savedDraft.frostingSpecs) {
+      setFrostingSpecs(savedDraft.frostingSpecs);
+    }
+
+    if (savedDraft.fondantChecked) {
+      setFondantChecked(savedDraft.fondantChecked);
     }
 
     if (Array.isArray(savedDraft.cakeColors)) {
@@ -102,6 +145,9 @@ export default function FillingsPage() {
       ...existingDraft,
       selectedFilling,
       fillingSpecs,
+      selectedFrosting,
+      frostingSpecs,
+      fondantChecked,
       cakeColors,
       cakeTiers: tiers,
       extraNotes,
@@ -124,6 +170,27 @@ export default function FillingsPage() {
     };
     setFillingSpecs(updatedSpecs);
     saveDraft({ fillingSpecs: updatedSpecs });
+  };
+
+  const handleSelectFrosting = (frostingId) => {
+    const newValue = selectedFrosting === frostingId ? "" : frostingId;
+    setSelectedFrosting(newValue);
+    saveDraft({ selectedFrosting: newValue });
+  };
+
+  const handleFrostingSpecChange = (id, value) => {
+    const updatedSpecs = {
+      ...frostingSpecs,
+      [id]: value
+    };
+    setFrostingSpecs(updatedSpecs);
+    saveDraft({ frostingSpecs: updatedSpecs });
+  };
+
+  const handleFondantToggle = () => {
+    const updated = !fondantChecked;
+    setFondantChecked(updated);
+    saveDraft({ fondantChecked: updated });
   };
 
   const handleColorToggle = (color) => {
@@ -246,36 +313,80 @@ export default function FillingsPage() {
         </div>
 
         <div className="fillings-layout">
-          <div className="fillings-menu-box">
-            <div className="fillings-menu-header">Fillings</div>
+          <div className="fillings-left-col">
+            <div className="fillings-menu-box">
+              <div className="fillings-menu-header">Inside Filling (Choose 1)</div>
 
-            <div className="fillings-options-list">
-              {fillingOptions.map((option) => (
-                <div key={option.id} className="filling-row">
-                  <label className="filling-option">
-                    <input
-                      type="checkbox"
-                      checked={selectedFilling === option.id}
-                      onChange={() => handleSelectFilling(option.id)}
-                    />
-                    <span>{option.label}</span>
-                  </label>
+              <div className="fillings-options-list">
+                {fillingOptions.map((option) => (
+                  <div key={option.id} className="filling-row">
+                    <label className="filling-option">
+                      <input
+                        type="checkbox"
+                        checked={selectedFilling === option.id}
+                        onChange={() => handleSelectFilling(option.id)}
+                      />
+                      <span>{option.label}</span>
+                    </label>
 
-                  {option.id !== "none" && (
+                    {option.id !== "none" && (
+                      <div className="specify-row">
+                        <span className="specify-label">specify:</span>
+                        <input
+                          type="text"
+                          className="specify-input"
+                          value={fillingSpecs[option.id] || ""}
+                          onChange={(e) =>
+                            handleSpecChange(option.id, e.target.value)
+                          }
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="fillings-menu-box">
+              <div className="fillings-menu-header">Outer Decor</div>
+
+              <div className="fillings-options-list">
+                {frostingOptions.map((option) => (
+                  <div key={option.id} className="filling-row">
+                    <label className="filling-option">
+                      <input
+                        type="checkbox"
+                        checked={selectedFrosting === option.id}
+                        onChange={() => handleSelectFrosting(option.id)}
+                      />
+                      <span>{option.label}</span>
+                    </label>
+
                     <div className="specify-row">
                       <span className="specify-label">specify:</span>
                       <input
                         type="text"
                         className="specify-input"
-                        value={fillingSpecs[option.id] || ""}
+                        value={frostingSpecs[option.id] || ""}
                         onChange={(e) =>
-                          handleSpecChange(option.id, e.target.value)
+                          handleFrostingSpecChange(option.id, e.target.value)
                         }
                       />
                     </div>
-                  )}
+                  </div>
+                ))}
+
+                <div className="filling-row">
+                  <label className="filling-option">
+                    <input
+                      type="checkbox"
+                      checked={fondantChecked}
+                      onChange={handleFondantToggle}
+                    />
+                    <span>Fondant</span>
+                  </label>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
 
