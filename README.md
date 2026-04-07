@@ -33,17 +33,10 @@ CakeTalk is a high fidelity web prototype that walks users through designing a c
 
 ## How to Run It
 
-### Option A: Just double-click (easiest)
-1. Download `caketalk.html`
-2. Double-click the file
-3. It opens directly in your default browser!
-
-### Option B: VS Code with Live Server
-1. Open VS Code
-2. Install the **Live Server** extension (by Ritwick Dey) if you don't have it
-3. Open `caketalk.html` in VS Code
-4. Right-click anywhere in the file → click **"Open with Live Server"**
-5. The prototype opens at `http://127.0.0.1:5500/caketalk.html`
+- **Tool used to build:** React (JavaScript), written and edited in VS Code
+- **Platform:** Runs in a web browser as a React application
+- **Browser:** Google Chrome (recommended). Also compatible with Edge and Firefox.
+- **Operating System:** Windows or macOS`
 
 ---
 
@@ -102,6 +95,28 @@ Once logged in, follow these steps:
 ## File Structure
 
 ```
-caketalk.html   ← the entire prototype (open this in your browser)
-README.md       ← you are here
+CAKETALK/
+├── node_modules/
+├── public/
+│   └── index.html
+├── src/
+│   ├── components/
+│   │   └── AuthCard.js
+│   ├── pages/
+│   │   ├── AuthPage.js
+│   │   ├── DesignPage.js
+│   │   ├── FillingsPage.js
+│   │   ├── FlavorPage.js
+│   │   ├── HomePage.js
+│   │   ├── SavedCakesPage.js
+│   │   ├── SetBudgetPage.js
+│   │   ├── SubmitPage.js
+│   │   ├── ThankYouPage.js
+│   │   └── VenuePage.js
+│   ├── App.js
+│   ├── index.js
+│   └── styles.css
+├── package-lock.json
+├── package.json
+└── README.md
 ```
