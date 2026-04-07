@@ -31,13 +31,22 @@ CakeTalk is a high fidelity web prototype that walks users through designing a c
 
 ---
 
-## How to Run It
+## Platform & Requirements
 
 - **Tool used to build:** React (JavaScript), written and edited in VS Code
 - **Platform:** Runs in a web browser as a React application
 - **Browser:** Google Chrome (recommended). Also compatible with Edge and Firefox.
 - **Operating System:** Windows or macOS`
 
+## How to Run the Prototype
+
+**Requirements:** Node.js must be installed on your computer. Download it at https://nodejs.org if you do not have it.
+1. Download or clone the CakeTalk project folder to your computer
+2. Open the project folder in VS Code
+3. Open the terminal in VS Code (View, Terminal)
+4. Run npm install to install dependencies
+5. Run npm start to launch the app
+6. The prototype will automatically open in your browser at http://localhost:3000
 ---
 
 ## How to Log In
