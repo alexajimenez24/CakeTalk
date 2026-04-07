@@ -18,17 +18,6 @@ CakeTalk is a high fidelity web prototype that walks users through designing a c
 - Alexa Jimenez — ajime72@uic.edu  
 - Anjali Viswan — avisw2@uic.edu  
 - June Hong — hhong43@uic.edu  
-
-## Platform & Requirements
-
-| Detail | Info |
-|---|---|
-| **File** | `caketalk.html` |
-| **Type** | Single-file HTML/CSS/JS (no install needed) |
-| **Recommended Browser** | Google Chrome or Microsoft Edge |
-| **OS** | Windows or macOS |
-| **Dependencies** | None: no npm, no server, no internet required |
-
 ---
 
 ## Platform & Requirements
