@@ -76,6 +76,11 @@ export default function DesignPage() {
     navigate("/flavor");
   };
 
+  const handleGoFillings = () => {
+    saveDraft({ selectedDesign });
+    navigate("/fillings");
+  };
+
   const handleNext = () => {
     saveDraft({ selectedDesign });
     navigate("/submit");
@@ -89,7 +94,8 @@ export default function DesignPage() {
   const steps = [
     "Budget",
     "Venue",
-    "Flavor & Extras",
+    "Flavor",
+    "Fillings",
     "Design",
     "Submit"
   ];
@@ -105,15 +111,16 @@ export default function DesignPage() {
           {steps.map((step, index) => {
             const isBudget = index === 0;
             const isVenue = index === 1;
-            const isFlavorExtras = index === 2;
-            const isDesign = index === 3;
-            const isSubmit = index === 4;
+            const isFlavor = index === 2;
+            const isFillings = index === 3;
+            const isDesign = index === 4;
+            const isSubmit = index === 5;
 
             return (
               <div className="progress-step" key={step}>
                 <button
                   className={`progress-circle ${
-                    isBudget || isVenue || isFlavorExtras || isDesign
+                    isBudget || isVenue || isFlavor || isFillings || isDesign
                       ? "active"
                       : ""
                   }`}
@@ -123,8 +130,10 @@ export default function DesignPage() {
                       ? handleGoBudget
                       : isVenue
                       ? handleGoVenue
-                      : isFlavorExtras
+                      : isFlavor
                       ? handleGoFlavor
+                      : isFillings
+                      ? handleGoFillings
                       : isSubmit
                       ? handleNext
                       : undefined
@@ -179,7 +188,7 @@ export default function DesignPage() {
         </div>
 
         <div className="card-nav-row">
-          <button className="secondary-nav-btn" onClick={handleGoFlavor}>
+          <button className="secondary-nav-btn" onClick={handleGoFillings}>
             Back
           </button>
 

@@ -6,6 +6,7 @@ import SavedCakesPage from "./pages/SavedCakesPage";
 import SetBudgetPage from "./pages/SetBudgetPage";
 import VenuePage from "./pages/VenuePage";
 import FlavorPage from "./pages/FlavorPage";
+import FillingsPage from "./pages/FillingsPage";
 import DesignPage from "./pages/DesignPage";
 import SubmitPage from "./pages/SubmitPage";
 import ThankYouPage from "./pages/ThankYouPage";
@@ -56,6 +57,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <FlavorPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/fillings"
+        element={
+          <ProtectedRoute>
+            <FillingsPage />
           </ProtectedRoute>
         }
       />

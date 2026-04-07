@@ -96,7 +96,8 @@ export default function SetBudgetPage() {
   const steps = [
     "Budget",
     "Venue",
-    "Flavor & Extras",
+    "Flavor",
+    "Fillings",
     "Design",
     "Submit"
   ];

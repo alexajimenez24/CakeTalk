@@ -48,6 +48,7 @@ export default function SubmitPage() {
   const handleGoBudget = () => navigate("/budget");
   const handleGoVenue = () => navigate("/venue");
   const handleGoFlavor = () => navigate("/flavor");
+  const handleGoFillings = () => navigate("/fillings");
   const handleGoDesign = () => navigate("/design");
 
   const handleConfirm = () => {
@@ -89,7 +90,8 @@ export default function SubmitPage() {
   const steps = [
     "Budget",
     "Venue",
-    "Flavor & Extras",
+    "Flavor",
+    "Fillings",
     "Design",
     "Submit"
   ];
@@ -105,15 +107,16 @@ export default function SubmitPage() {
           {steps.map((step, index) => {
             const isBudget = index === 0;
             const isVenue = index === 1;
-            const isFlavorExtras = index === 2;
-            const isDesign = index === 3;
-            const isSubmit = index === 4;
+            const isFlavor = index === 2;
+            const isFillings = index === 3;
+            const isDesign = index === 4;
+            const isSubmit = index === 5;
 
             return (
               <div className="progress-step" key={step}>
                 <button
                   className={`progress-circle ${
-                    isBudget || isVenue || isFlavorExtras || isDesign || isSubmit
+                    isBudget || isVenue || isFlavor || isFillings || isDesign || isSubmit
                       ? "active"
                       : ""
                   }`}
@@ -123,8 +126,10 @@ export default function SubmitPage() {
                       ? handleGoBudget
                       : isVenue
                       ? handleGoVenue
-                      : isFlavorExtras
+                      : isFlavor
                       ? handleGoFlavor
+                      : isFillings
+                      ? handleGoFillings
                       : isDesign
                       ? handleGoDesign
                       : undefined
