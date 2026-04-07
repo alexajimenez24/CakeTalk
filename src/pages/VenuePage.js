@@ -89,8 +89,7 @@ export default function VenuePage() {
   const steps = [
     "Budget",
     "Venue",
-    "Flavor",
-    "Fillings",
+    "Flavor & Extras",
     "Design",
     "Submit"
   ];
@@ -106,7 +105,7 @@ export default function VenuePage() {
           {steps.map((step, index) => {
             const isBudget = index === 0;
             const isVenue = index === 1;
-            const isFlavor = index === 2;
+            const isFlavorExtras = index === 2;
 
             return (
               <div className="progress-step" key={step}>
@@ -114,7 +113,7 @@ export default function VenuePage() {
                   className={`progress-circle ${isBudget || isVenue ? "active" : ""}`}
                   type="button"
                   onClick={
-                    isBudget ? handleGoBudget : isFlavor ? handleGoFlavor : undefined
+                    isBudget ? handleGoBudget : isFlavorExtras ? handleGoFlavor : undefined
                   }
                 >
                   {isVenue ? "✓" : ""}
