@@ -4,6 +4,26 @@ import { useNavigate } from "react-router-dom";
 const DRAFT_KEY = "caketalk_cake_draft";
 const SAVED_CAKES_KEY = "caketalk_saved_cakes";
 
+const designStyleMap = {
+  "classic-floral": "flower",
+  "vintage-piped": "vintage",
+  "garden-cascade": "garden",
+  "minimal-romance": "romance",
+  "modern-drip": "drip"
+};
+
+function getCakeImage(design, tiers, colors) {
+  const style = designStyleMap[design];
+  const tier = tiers || 3;
+  const color = (colors && colors[0]) ? colors[0].toLowerCase() : "white";
+  if (!style) return null;
+  try {
+    return require(`../cake_illustrations/${tier}_${style}_${color}.png`);
+  } catch {
+    return require(`../cake_illustrations/3_${style}_white.png`);
+  }
+}
+
 const bakeryPresets = {
   "60617": [
     {
@@ -228,29 +248,18 @@ export default function ThankYouPage() {
             </div>
 
             <div className="thank-you-preview-card">
-              <div className={selectedDesignClasses}>
-                <div className="design-cake-base"></div>
-                <div className="design-cake-stand"></div>
-                <div className="design-tier bottom"></div>
-                <div className="design-tier middle"></div>
-                <div className="design-tier top"></div>
-
-                {draft.selectedDesign === "classic-floral" && (
-                  <div className="floral-accent classic-flower"></div>
-                )}
-                {draft.selectedDesign === "vintage-piped" && (
-                  <div className="piped-accent"></div>
-                )}
-                {draft.selectedDesign === "garden-cascade" && (
-                  <div className="cascade-flowers"></div>
-                )}
-                {draft.selectedDesign === "minimal-romance" && (
-                  <div className="minimal-flowers"></div>
-                )}
-                {draft.selectedDesign === "modern-drip" && (
-                  <div className="drip-lines"></div>
-                )}
-              </div>
+              {(() => {
+                const img = getCakeImage(draft.selectedDesign, draft.cakeTiers, draft.cakeColors);
+                return img ? (
+                  <img
+                    src={img}
+                    alt="Your cake design"
+                    className="design-cake-img"
+                  />
+                ) : (
+                  <p>No design selected</p>
+                );
+              })()}
 
               <p className="thank-you-design-label">
                 {designTitleMap[draft.selectedDesign] || "Custom Cake Design"}
