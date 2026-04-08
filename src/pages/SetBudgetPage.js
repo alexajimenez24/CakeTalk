@@ -6,70 +6,37 @@ const DRAFT_KEY = "caketalk_cake_draft";
 export default function SetBudgetPage() {
   const navigate = useNavigate();
   const [budget, setBudget] = useState(1000);
-  const [budgetInput, setBudgetInput] = useState("1000");
   const [weddingDate, setWeddingDate] = useState("");
   const [showLeaveModal, setShowLeaveModal] = useState(false);
 
   useEffect(() => {
     const savedDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-
-    const savedBudget =
-      typeof savedDraft.budget === "number" ? savedDraft.budget : 1000;
+    const savedBudget = typeof savedDraft.budget === "number" ? savedDraft.budget : 1000;
     const savedDate = savedDraft.weddingDate || "";
-
     setBudget(savedBudget);
-    setBudgetInput(String(savedBudget));
     setWeddingDate(savedDate);
   }, []);
 
   const saveDraft = (updatedFields) => {
     const existingDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-
     const updatedDraft = {
       ...existingDraft,
       budget,
       weddingDate,
       ...updatedFields
     };
-
     localStorage.setItem(DRAFT_KEY, JSON.stringify(updatedDraft));
   };
 
   const handlePresetClick = (value) => {
     setBudget(value);
-    setBudgetInput(String(value));
     saveDraft({ budget: value });
   };
 
   const handleSliderChange = (e) => {
     const value = Number(e.target.value);
     setBudget(value);
-    setBudgetInput(String(value));
     saveDraft({ budget: value });
-  };
-
-  const handleBudgetInputChange = (e) => {
-    const rawValue = e.target.value.replace(/[^0-9]/g, "");
-    setBudgetInput(rawValue);
-
-    let numericValue = rawValue === "" ? 0 : Number(rawValue);
-
-    if (numericValue > 3000) numericValue = 3000;
-    if (numericValue < 0) numericValue = 0;
-
-    setBudget(numericValue);
-    saveDraft({ budget: numericValue });
-  };
-
-  const handleBudgetInputBlur = () => {
-    let numericValue = Number(budgetInput || 0);
-
-    if (numericValue > 3000) numericValue = 3000;
-    if (numericValue < 0) numericValue = 0;
-
-    setBudget(numericValue);
-    setBudgetInput(String(numericValue));
-    saveDraft({ budget: numericValue });
   };
 
   const handleDateChange = (e) => {
@@ -93,14 +60,7 @@ export default function SetBudgetPage() {
     navigate("/home");
   };
 
-  const steps = [
-    "Budget",
-    "Venue",
-    "Flavor",
-    "Fillings",
-    "Design",
-    "Submit"
-  ];
+  const steps = ["Budget", "Venue", "Flavor", "Fillings", "Design", "Submit"];
 
   return (
     <div className="budget-page">
@@ -140,19 +100,10 @@ export default function SetBudgetPage() {
           </div>
 
           <div className="budget-display-box">
-            <label className="budget-display-label" htmlFor="budgetInput">
-              Budget:
-            </label>
+            <label className="budget-display-label">Budget:</label>
             <div className="budget-input-wrap">
               <span className="budget-dollar-sign">$</span>
-              <input
-                id="budgetInput"
-                type="text"
-                value={budgetInput}
-                onChange={handleBudgetInputChange}
-                onBlur={handleBudgetInputBlur}
-                className="budget-display-input"
-              />
+              <span className="budget-display-input">{budget}</span>
             </div>
           </div>
         </div>
