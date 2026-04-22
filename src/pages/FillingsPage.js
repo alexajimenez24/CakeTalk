@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const DRAFT_KEY = "caketalk_cake_draft";
-const MAX_COLORS = 3;
+const MAX_COLORS = 1;
 
 const fillingOptions = [
   {
@@ -53,15 +53,7 @@ const frostingOptions = [
 const colorOptions = [
   "White",
   "Ivory",
-  "Cream",
-  "Champagne",
-  "Blush",
-  "Sage",
-  "Dusty Rose",
-  "Lavender",
-  "Sky Blue",
-  "Gold",
-  "Silver"
+  "Blush"
 ];
 
 export default function FillingsPage() {
@@ -205,7 +197,7 @@ export default function FillingsPage() {
     }
 
     if (cakeColors.length >= MAX_COLORS) {
-      setColorMessage("You can select up to 3 colors.");
+      setColorMessage("You can select one colors.");
       return;
     }
 
@@ -216,7 +208,7 @@ export default function FillingsPage() {
   };
 
   const incrementTiers = () => {
-    const updated = Math.min(10, tiers + 1);
+    const updated = Math.min(3, tiers + 1);
     setTiers(updated);
     saveDraft({ cakeTiers: updated });
   };

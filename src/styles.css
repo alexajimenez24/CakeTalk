@@ -23,6 +23,12 @@ textarea {
   font: inherit;
 }
 
+.design-cake-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -2535,3 +2541,4 @@ textarea {
     padding-left: 0;
   }
 }
+

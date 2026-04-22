@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const designStyleMap = {
+  "classic-floral": "flower",
+  "vintage-piped": "vintage",
+  "garden-cascade": "garden",
+  "minimal-romance": "romance",
+  "modern-drip": "drip"
+};
+
 const DRAFT_KEY = "caketalk_cake_draft";
 
 const designOptions = [
@@ -167,19 +175,11 @@ export default function DesignPage() {
                 onClick={() => handleSelectDesign(design.id)}
                 type="button"
               >
-                <div className={`design-cake-visual ${design.visual}`}>
-                  <div className="design-cake-base"></div>
-                  <div className="design-cake-stand"></div>
-                  <div className="design-tier bottom"></div>
-                  <div className="design-tier middle"></div>
-                  <div className="design-tier top"></div>
-
-                  {design.visual === "classic" && <div className="floral-accent classic-flower"></div>}
-                  {design.visual === "vintage" && <div className="piped-accent"></div>}
-                  {design.visual === "cascade" && <div className="cascade-flowers"></div>}
-                  {design.visual === "minimal" && <div className="minimal-flowers"></div>}
-                  {design.visual === "drip" && <div className="drip-lines"></div>}
-                </div>
+                <img
+                  src={require(`../cake_illustrations/3_${designStyleMap[design.id]}_white.png`)}
+                  alt={design.title}
+                  className="design-cake-img"
+                />
 
                 <p className="design-option-title">{design.title}</p>
               </button>
