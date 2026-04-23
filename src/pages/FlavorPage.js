@@ -1,290 +1,266 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressBar from "../components/ProgressBar";
 
 const DRAFT_KEY = "caketalk_cake_draft";
-const MAX_FLAVORS = 5;
 
-const flavorOptions = [
-  "Chocolate",
-  "Vanilla",
-  "Red Velvet",
-  "Marble",
-  "Funfetti",
-  "Carrot",
-  "German Chocolate",
-  "Strawberry",
-  "Fruit",
-  "Banana",
-  "Taro",
-  "Lemon",
-  "Biscoff",
-  "Cinnamon",
-  "Coffee"
+const fillingOptions = [
+  { id: "pudding", label: "Pudding", defaultText: "default: vanilla pudding" },
+  { id: "curd",    label: "Curd",    defaultText: "default: lemon curd" },
+  { id: "jam",     label: "Jam",     defaultText: "default: strawberry jam" },
+  { id: "none",    label: "None",    defaultText: "" },
 ];
 
-export default function FlavorPage() {
+const frostingOptions = [
+  { id: "buttercream",    label: "Buttercream",   defaultText: "default: vanilla buttercream" },
+  { id: "cream-cheese",  label: "Cream Cheese",  defaultText: "default: classic cream cheese" },
+  { id: "whipped-cream", label: "Whipped Cream", defaultText: "default: heavy whipping cream" },
+  { id: "fondant",       label: "Fondant",       defaultText: "default: standard fondant" },
+];
+
+const colorOptions = ["White", "Ivory", "Blush"];
+
+const radioBtn = (selected) => ({
+  width: "16px", height: "16px", minWidth: "16px", borderRadius: "50%",
+  border: selected ? "2px solid #2d2d2d" : "2px solid #aaa",
+  background: "transparent", cursor: "pointer", padding: "0",
+  display: "flex", alignItems: "center", justifyContent: "center",
+  flexShrink: 0, outline: "none",
+});
+
+const radioDot = {
+  width: "7px", height: "7px", borderRadius: "50%",
+  background: "#2d2d2d", display: "block", flexShrink: 0,
+};
+
+const rowStyle = { display: "flex", alignItems: "center", gap: "10px", padding: "6px 0" };
+const labelStyle = { fontSize: "14px", cursor: "default", userSelect: "none" };
+
+export default function FillingsPage() {
   const navigate = useNavigate();
-  const [selectedFlavors, setSelectedFlavors] = useState([]);
-  const [otherChecked, setOtherChecked] = useState(false);
-  const [otherFlavorText, setOtherFlavorText] = useState("");
-  const [message, setMessage] = useState("");
-  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const [selectedFilling,  setSelectedFilling]  = useState("");
+  const [fillingSpec,      setFillingSpec]       = useState("");
+  const [selectedFrosting, setSelectedFrosting] = useState("");
+  const [frostingSpec,     setFrostingSpec]      = useState("");
+  const [cakeColor,        setCakeColor]         = useState("");
+  const [showColorMenu,    setShowColorMenu]     = useState(false);
+  const [tiers,            setTiers]             = useState(3);
+  const [extraNotes,       setExtraNotes]        = useState("");
+  const [showLeaveModal,   setShowLeaveModal]    = useState(false);
 
   useEffect(() => {
-    const savedDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-
-    if (Array.isArray(savedDraft.selectedFlavors)) {
-      setSelectedFlavors(savedDraft.selectedFlavors);
-    }
-
-    if (savedDraft.otherFlavorText) {
-      setOtherFlavorText(savedDraft.otherFlavorText);
-    }
-
-    if (savedDraft.otherFlavorEnabled) {
-      setOtherChecked(savedDraft.otherFlavorEnabled);
-    }
+    const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
+    if (draft.selectedFilling)  setSelectedFilling(draft.selectedFilling);
+    if (draft.fillingSpec)      setFillingSpec(draft.fillingSpec);
+    if (draft.selectedFrosting) setSelectedFrosting(draft.selectedFrosting);
+    if (draft.frostingSpec)     setFrostingSpec(draft.frostingSpec);
+    if (draft.cakeColor)        setCakeColor(draft.cakeColor);
+    if (draft.cakeTiers)        setTiers(draft.cakeTiers);
+    if (draft.extraNotes)       setExtraNotes(draft.extraNotes);
   }, []);
 
-  const saveDraft = (updatedFields) => {
-    const existingDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-
-    const updatedDraft = {
-      ...existingDraft,
-      selectedFlavors,
-      otherFlavorEnabled: otherChecked,
-      otherFlavorText,
-      ...updatedFields
+  useEffect(() => {
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setShowColorMenu(false);
     };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(updatedDraft));
+  const saveDraft = (overrides = {}) => {
+    const existing = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
+    const updated = {
+      ...existing, selectedFilling, fillingSpec, selectedFrosting,
+      frostingSpec, cakeColor, cakeTiers: tiers, extraNotes, ...overrides,
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(updated));
   };
 
-  const totalSelectedCount = selectedFlavors.length + (otherChecked ? 1 : 0);
-
-  const selectedDisplayList = useMemo(() => {
-    const items = [...selectedFlavors];
-
-    if (otherChecked) {
-      items.push(otherFlavorText ? `Other: ${otherFlavorText}` : "Other");
-    }
-
-    return items.slice(0, MAX_FLAVORS);
-  }, [selectedFlavors, otherChecked, otherFlavorText]);
-
-  const handleFlavorToggle = (flavor) => {
-    const alreadySelected = selectedFlavors.includes(flavor);
-
-    if (alreadySelected) {
-      const updated = selectedFlavors.filter((item) => item !== flavor);
-      setSelectedFlavors(updated);
-      setMessage("");
-      saveDraft({ selectedFlavors: updated });
-      return;
-    }
-
-    if (totalSelectedCount >= MAX_FLAVORS) {
-      setMessage("You can select up to 5 flavors.");
-      return;
-    }
-
-    const updated = [...selectedFlavors, flavor];
-    setSelectedFlavors(updated);
-    setMessage("");
-    saveDraft({ selectedFlavors: updated });
+  const handleSelectFilling = (id) => {
+    const option  = fillingOptions.find((o) => o.id === id);
+    const newVal  = selectedFilling === id ? "" : id;
+    const newSpec = newVal ? option.defaultText : "";
+    setSelectedFilling(newVal);
+    setFillingSpec(newSpec);
+    saveDraft({ selectedFilling: newVal, fillingSpec: newSpec });
   };
 
-  const handleOtherToggle = () => {
-    if (otherChecked) {
-      setOtherChecked(false);
-      setMessage("");
-      saveDraft({
-        otherFlavorEnabled: false,
-        otherFlavorText
-      });
-      return;
-    }
-
-    if (totalSelectedCount >= MAX_FLAVORS) {
-      setMessage("You can select up to 5 flavors.");
-      return;
-    }
-
-    setOtherChecked(true);
-    setMessage("");
-    saveDraft({
-      otherFlavorEnabled: true,
-      otherFlavorText
-    });
+  const handleSelectFrosting = (id) => {
+    const option  = frostingOptions.find((o) => o.id === id);
+    const newVal  = selectedFrosting === id ? "" : id;
+    const newSpec = newVal ? option.defaultText : "";
+    setSelectedFrosting(newVal);
+    setFrostingSpec(newSpec);
+    saveDraft({ selectedFrosting: newVal, frostingSpec: newSpec });
   };
 
-  const handleOtherTextChange = (e) => {
-    const value = e.target.value;
-    setOtherFlavorText(value);
-    saveDraft({
-      otherFlavorEnabled: otherChecked,
-      otherFlavorText: value
-    });
+  const handleColorSelect = (color) => {
+    const newVal = cakeColor === color ? "" : color;
+    setCakeColor(newVal);
+    setShowColorMenu(false);
+    saveDraft({ cakeColor: newVal });
   };
 
-  const handleGoBudget = () => {
-    saveDraft({
-      selectedFlavors,
-      otherFlavorEnabled: otherChecked,
-      otherFlavorText
-    });
-    navigate("/budget");
+  const incrementTiers = () => {
+    const updated = Math.min(3, tiers + 1);
+    setTiers(updated);
+    saveDraft({ cakeTiers: updated });
   };
 
-  const handleGoVenue = () => {
-    saveDraft({
-      selectedFlavors,
-      otherFlavorEnabled: otherChecked,
-      otherFlavorText
-    });
-    navigate("/venue");
+  const decrementTiers = () => {
+    const updated = Math.max(1, tiers - 1);
+    setTiers(updated);
+    saveDraft({ cakeTiers: updated });
   };
 
-  const handleGoFillings = () => {
-    saveDraft({
-      selectedFlavors,
-      otherFlavorEnabled: otherChecked,
-      otherFlavorText
-    });
-    navigate("/fillings");
-  };
-
-  const handleNext = () => {
-    saveDraft({
-      selectedFlavors,
-      otherFlavorEnabled: otherChecked,
-      otherFlavorText
-    });
-    navigate("/fillings");
-  };
-
-  const handleDashboardConfirm = () => {
-    setShowLeaveModal(false);
-    navigate("/home");
-  };
-
-  const steps = [
-    "Budget",
-    "Venue",
-    "Flavor",
-    "Fillings",
-    "Design",
-    "Submit"
-  ];
+  const handleDashboardConfirm = () => { setShowLeaveModal(false); navigate("/home"); };
 
   return (
-    <div className="flavor-page">
-      <div className="flavor-topbar">
+    <div className="fillings-page">
+      <div className="fillings-topbar">
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-
-        <div className="progress-tracker">
-          {steps.map((step, index) => {
-            const isBudget = index === 0;
-            const isVenue = index === 1;
-            const isFlavor = index === 2;
-            const isFillings = index === 3;
-
-            return (
-              <div className="progress-step" key={step}>
-                <button
-                  className={`progress-circle ${
-                    isBudget || isVenue || isFlavor ? "active" : ""
-                  }`}
-                  type="button"
-                  onClick={
-                    isBudget
-                      ? handleGoBudget
-                      : isVenue
-                      ? handleGoVenue
-                      : isFillings
-                      ? handleGoFillings
-                      : undefined
-                  }
-                >
-                  {isFlavor ? "✓" : ""}
-                </button>
-                <span className="progress-label">{step}</span>
-              </div>
-            );
-          })}
-        </div>
+        <ProgressBar currentStep="Fillings" />
       </div>
 
-      <div className="flavor-card">
-        <div className="flavor-header">
-          <h1 className="flavor-title">Choose Flavor</h1>
-          <p className="flavor-subtitle">
-            Select up to 5 flavors for your cake.
+      <div className="fillings-card">
+        <div className="fillings-header">
+          <h1 className="fillings-title">Choose Extras</h1>
+          <p className="fillings-subtitle">
+            Select one filling and one outer decor option, then adjust the specifications.
           </p>
         </div>
 
-        <div className="flavor-layout">
-          <div className="flavor-menu-box">
-            <div className="flavor-menu-header">Flavor Options</div>
-
-            <div className="flavor-grid">
-              {flavorOptions.map((flavor) => (
-                <label key={flavor} className="flavor-option">
-                  <input
-                    type="checkbox"
-                    checked={selectedFlavors.includes(flavor)}
-                    onChange={() => handleFlavorToggle(flavor)}
-                  />
-                  <span>{flavor}</span>
-                </label>
+        <div className="fillings-layout">
+          <div className="fillings-menu-box" style={{ display: "flex", flexDirection: "column" }}>
+            <div className="fillings-menu-header">Inside Filling (Choose 1)</div>
+            <div className="fillings-options-list" style={{ flex: 1 }}>
+              {fillingOptions.map((option) => (
+                <div key={option.id} style={rowStyle}>
+                  <button
+                    type="button"
+                    style={radioBtn(selectedFilling === option.id)}
+                    onClick={() => handleSelectFilling(option.id)}
+                    aria-label={`Select ${option.label}`}
+                  >
+                    {selectedFilling === option.id && <span style={radioDot} />}
+                  </button>
+                  <span style={labelStyle}>{option.label}</span>
+                </div>
               ))}
             </div>
+            <div className="specify-area">
+              <span className="specify-label">Specify: </span>
+              <input
+                type="text"
+                className="specify-input"
+                value={fillingSpec}
+                placeholder="e.g. vanilla pudding"
+                onChange={(e) => { setFillingSpec(e.target.value); saveDraft({ fillingSpec: e.target.value }); }}
+              />
+            </div>
+          </div>
 
-            <div className="other-flavor-row">
-              <label className="flavor-option other-option">
-                <input
-                  type="checkbox"
-                  checked={otherChecked}
-                  onChange={handleOtherToggle}
-                />
-                <span>Other</span>
-              </label>
+          <div className="fillings-menu-box" style={{ display: "flex", flexDirection: "column" }}>
+            <div className="fillings-menu-header">Outer Decor (Choose 1)</div>
+            <div className="fillings-options-list" style={{ flex: 1 }}>
+              {frostingOptions.map((option) => (
+                <div key={option.id} style={rowStyle}>
+                  <button
+                    type="button"
+                    style={radioBtn(selectedFrosting === option.id)}
+                    onClick={() => handleSelectFrosting(option.id)}
+                    aria-label={`Select ${option.label}`}
+                  >
+                    {selectedFrosting === option.id && <span style={radioDot} />}
+                  </button>
+                  <span style={labelStyle}>{option.label}</span>
+                </div>
+              ))}
+            </div>
+            <div className="specify-area">
+              <span className="specify-label">Specify: </span>
+              <input
+                type="text"
+                className="specify-input"
+                value={frostingSpec}
+                placeholder="e.g. vanilla buttercream"
+                onChange={(e) => { setFrostingSpec(e.target.value); saveDraft({ frostingSpec: e.target.value }); }}
+              />
+            </div>
+          </div>
+        </div>
 
-              {otherChecked && (
-                <input
-                  type="text"
-                  className="other-flavor-input"
-                  placeholder="Enter another flavor"
-                  value={otherFlavorText}
-                  onChange={handleOtherTextChange}
-                />
+        <div className="specification-box">
+          <h2 className="specification-title">Specification</h2>
+          <div className="specification-grid">
+
+            <div className="specification-field" ref={dropdownRef}>
+              <label>Color:</label>
+              <button
+                type="button"
+                className="multi-select-dropdown"
+                onClick={() => setShowColorMenu((prev) => !prev)}
+              >
+                {cakeColor || "Select a color"}
+              </button>
+              {showColorMenu && (
+                <div className="multi-select-menu">
+                  {colorOptions.map((color) => (
+                    <div key={color} style={rowStyle}>
+                      <button
+                        type="button"
+                        style={radioBtn(cakeColor === color)}
+                        onClick={() => handleColorSelect(color)}
+                        aria-label={`Select ${color}`}
+                      >
+                        {cakeColor === color && <span style={radioDot} />}
+                      </button>
+                      <span style={labelStyle}>{color}</span>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
-            {message && <p className="flavor-message">{message}</p>}
-          </div>
+            <div className="specification-field tiers-field">
+              <label>Tiers (max 3):</label>
+              <div className="tier-stepper">
+                <button type="button" className="tier-btn" onClick={decrementTiers}>−</button>
+                <input
+                  type="number"
+                  className="tier-input no-arrows"
+                  value={tiers}
+                  min="1"
+                  max="3"
+                  readOnly
+                  style={{ MozAppearance: "textfield" }}
+                />
+                <button type="button" className="tier-btn" onClick={incrementTiers}>+</button>
+              </div>
+            </div>
 
-          <div className="selected-box">
-            <h2 className="selected-title">Selected</h2>
+            <div className="specification-field notes-field">
+              <label>Extra Notes:</label>
+              <textarea
+                className="extra-notes-input"
+                value={extraNotes}
+                onChange={(e) => { setExtraNotes(e.target.value); saveDraft({ extraNotes: e.target.value }); }}
+                placeholder="Add any extra notes..."
+              />
+            </div>
 
-            <ol className="selected-list">
-              {[0, 1, 2, 3, 4].map((index) => (
-                <li key={index}>
-                  {selectedDisplayList[index] ? selectedDisplayList[index] : ""}
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
 
         <div className="card-nav-row">
-          <button className="secondary-nav-btn" onClick={handleGoVenue}>
+          <button className="secondary-nav-btn" onClick={() => { saveDraft(); navigate("/flavor"); }}>
             Back
           </button>
-
-          <button className="next-btn" onClick={handleNext}>
+          <button className="next-btn" onClick={() => { saveDraft(); navigate("/design"); }}>
             Next &gt;
           </button>
         </div>
@@ -294,9 +270,7 @@ export default function FlavorPage() {
         <div className="modal-overlay">
           <div className="modal-card">
             <h2 className="modal-title">Leave without saving?</h2>
-            <p className="modal-text">
-              Your current progress may not be fully completed yet.
-            </p>
+            <p className="modal-text">Your current progress may not be fully completed yet.</p>
             <div className="modal-actions">
               <button className="secondary-nav-btn" onClick={() => setShowLeaveModal(false)}>
                 Continue Editing

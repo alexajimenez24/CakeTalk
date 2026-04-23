@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressBar from "../components/ProgressBar";
 
 const DRAFT_KEY = "caketalk_cake_draft";
 
@@ -11,51 +12,29 @@ const fillingOptions = [
 ];
 
 const frostingOptions = [
-  { id: "buttercream",     label: "Buttercream",    defaultText: "default: vanilla buttercream" },
-  { id: "cream-cheese",   label: "Cream Cheese",   defaultText: "default: classic cream cheese" },
-  { id: "whipped-cream",  label: "Whipped Cream",  defaultText: "default: heavy whipping cream" },
-  { id: "fondant",        label: "Fondant",        defaultText: "default: standard fondant" },
+  { id: "buttercream",    label: "Buttercream",   defaultText: "default: vanilla buttercream" },
+  { id: "cream-cheese",  label: "Cream Cheese",  defaultText: "default: classic cream cheese" },
+  { id: "whipped-cream", label: "Whipped Cream", defaultText: "default: heavy whipping cream" },
+  { id: "fondant",       label: "Fondant",       defaultText: "default: standard fondant" },
 ];
 
 const colorOptions = ["White", "Ivory", "Blush"];
 
 const radioBtn = (selected) => ({
-  width: "16px",
-  height: "16px",
-  minWidth: "16px",
-  borderRadius: "50%",
+  width: "16px", height: "16px", minWidth: "16px", borderRadius: "50%",
   border: selected ? "2px solid #2d2d2d" : "2px solid #aaa",
-  background: "transparent",
-  cursor: "pointer",
-  padding: "0",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  flexShrink: 0,
-  outline: "none",
+  background: "transparent", cursor: "pointer", padding: "0",
+  display: "flex", alignItems: "center", justifyContent: "center",
+  flexShrink: 0, outline: "none",
 });
 
 const radioDot = {
-  width: "7px",
-  height: "7px",
-  borderRadius: "50%",
-  background: "#2d2d2d",
-  display: "block",
-  flexShrink: 0,
+  width: "7px", height: "7px", borderRadius: "50%",
+  background: "#2d2d2d", display: "block", flexShrink: 0,
 };
 
-const rowStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "6px 0",
-};
-
-const labelStyle = {
-  fontSize: "14px",
-  cursor: "default",
-  userSelect: "none",
-};
+const rowStyle = { display: "flex", alignItems: "center", gap: "10px", padding: "6px 0" };
+const labelStyle = { fontSize: "14px", cursor: "default", userSelect: "none" };
 
 export default function FillingsPage() {
   const navigate = useNavigate();
@@ -84,9 +63,7 @@ export default function FillingsPage() {
 
   useEffect(() => {
     const handler = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setShowColorMenu(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setShowColorMenu(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -95,15 +72,8 @@ export default function FillingsPage() {
   const saveDraft = (overrides = {}) => {
     const existing = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
     const updated = {
-      ...existing,
-      selectedFilling,
-      fillingSpec,
-      selectedFrosting,
-      frostingSpec,
-      cakeColor,
-      cakeTiers: tiers,
-      extraNotes,
-      ...overrides,
+      ...existing, selectedFilling, fillingSpec, selectedFrosting,
+      frostingSpec, cakeColor, cakeTiers: tiers, extraNotes, ...overrides,
     };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(updated));
   };
@@ -145,42 +115,15 @@ export default function FillingsPage() {
     saveDraft({ cakeTiers: updated });
   };
 
-  const handleGoPage = (path) => { saveDraft(); navigate(path); };
   const handleDashboardConfirm = () => { setShowLeaveModal(false); navigate("/home"); };
-
-  const steps = ["Budget", "Venue", "Flavor", "Fillings", "Design", "Submit"];
 
   return (
     <div className="fillings-page">
-
       <div className="fillings-topbar">
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-        <div className="progress-tracker">
-          {steps.map((step, index) => {
-            const done    = index < 3;
-            const current = index === 3;
-            return (
-              <div className="progress-step" key={step}>
-                <button
-                  className={`progress-circle ${done || current ? "active" : ""}`}
-                  type="button"
-                  onClick={
-                    index === 0 ? () => handleGoPage("/budget")
-                    : index === 1 ? () => handleGoPage("/venue")
-                    : index === 2 ? () => handleGoPage("/flavor")
-                    : index === 4 ? () => handleGoPage("/design")
-                    : undefined
-                  }
-                >
-                  {done ? "✓" : ""}
-                </button>
-                <span className="progress-label">{step}</span>
-              </div>
-            );
-          })}
-        </div>
+        <ProgressBar currentStep="Fillings" />
       </div>
 
       <div className="fillings-card">
@@ -192,7 +135,6 @@ export default function FillingsPage() {
         </div>
 
         <div className="fillings-layout">
-
           <div className="fillings-menu-box" style={{ display: "flex", flexDirection: "column" }}>
             <div className="fillings-menu-header">Inside Filling (Choose 1)</div>
             <div className="fillings-options-list" style={{ flex: 1 }}>
@@ -250,14 +192,12 @@ export default function FillingsPage() {
               />
             </div>
           </div>
-
         </div>
 
         <div className="specification-box">
           <h2 className="specification-title">Specification</h2>
           <div className="specification-grid">
 
-            {/* Color */}
             <div className="specification-field" ref={dropdownRef}>
               <label>Color:</label>
               <button
@@ -317,10 +257,10 @@ export default function FillingsPage() {
         </div>
 
         <div className="card-nav-row">
-          <button className="secondary-nav-btn" onClick={() => handleGoPage("/flavor")}>
+          <button className="secondary-nav-btn" onClick={() => { saveDraft(); navigate("/flavor"); }}>
             Back
           </button>
-          <button className="next-btn" onClick={() => handleGoPage("/design")}>
+          <button className="next-btn" onClick={() => { saveDraft(); navigate("/design"); }}>
             Next &gt;
           </button>
         </div>
@@ -342,7 +282,6 @@ export default function FillingsPage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressBar from "../components/ProgressBar";
 
 const DRAFT_KEY = "caketalk_cake_draft";
 
@@ -32,26 +33,13 @@ export default function VenuePage() {
 
   useEffect(() => {
     const savedDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-
-    if (savedDraft.venueType) {
-      setSelectedVenue(savedDraft.venueType);
-    }
-
-    if (savedDraft.venueMemo) {
-      setVenueMemo(savedDraft.venueMemo);
-    }
+    if (savedDraft.venueType) setSelectedVenue(savedDraft.venueType);
+    if (savedDraft.venueMemo) setVenueMemo(savedDraft.venueMemo);
   }, []);
 
   const saveDraft = (updatedFields) => {
     const existingDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-
-    const updatedDraft = {
-      ...existingDraft,
-      venueType: selectedVenue,
-      venueMemo,
-      ...updatedFields
-    };
-
+    const updatedDraft = { ...existingDraft, venueType: selectedVenue, venueMemo, ...updatedFields };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(updatedDraft));
   };
 
@@ -66,16 +54,6 @@ export default function VenuePage() {
     saveDraft({ venueMemo: value });
   };
 
-  const handleGoBudget = () => {
-    saveDraft({ venueType: selectedVenue, venueMemo });
-    navigate("/budget");
-  };
-
-  const handleGoFlavor = () => {
-    saveDraft({ venueType: selectedVenue, venueMemo });
-    navigate("/flavor");
-  };
-
   const handleNext = () => {
     saveDraft({ venueType: selectedVenue, venueMemo });
     navigate("/flavor");
@@ -86,58 +64,24 @@ export default function VenuePage() {
     navigate("/home");
   };
 
-  const steps = [
-    "Budget",
-    "Venue",
-    "Flavor",
-    "Fillings",
-    "Design",
-    "Submit"
-  ];
-
   return (
     <div className="venue-page">
       <div className="venue-topbar">
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-
-        <div className="progress-tracker">
-          {steps.map((step, index) => {
-            const isBudget = index === 0;
-            const isVenue = index === 1;
-            const isFlavor = index === 2;
-
-            return (
-              <div className="progress-step" key={step}>
-                <button
-                  className={`progress-circle ${isBudget || isVenue ? "active" : ""}`}
-                  type="button"
-                  onClick={
-                    isBudget ? handleGoBudget : isFlavor ? handleGoFlavor : undefined
-                  }
-                >
-                  {isVenue ? "✓" : ""}
-                </button>
-                <span className="progress-label">{step}</span>
-              </div>
-            );
-          })}
-        </div>
+        <ProgressBar currentStep="Venue" />
       </div>
 
       <div className="venue-card">
         <div className="venue-header">
           <h1 className="venue-title">Venue Type</h1>
-          <p className="venue-subtitle">
-            Pick where your cake will be served.
-          </p>
+          <p className="venue-subtitle">Pick where your cake will be served.</p>
         </div>
 
         <div className="venue-options-grid">
           {venueOptions.map((venue) => {
             const isSelected = selectedVenue === venue.id;
-
             return (
               <div
                 key={venue.id}
@@ -145,15 +89,12 @@ export default function VenuePage() {
                 onClick={() => handleSelectVenue(venue.id)}
               >
                 <h2 className="venue-option-title">{venue.title}</h2>
-
                 <div className="venue-icon">{venue.icon}</div>
-
                 <ul className="venue-bullets">
                   {venue.bullets.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-
                 {isSelected && (
                   <div className="memo-section">
                     <label className="memo-label">Memo...</label>
@@ -171,10 +112,9 @@ export default function VenuePage() {
         </div>
 
         <div className="card-nav-row">
-          <button className="secondary-nav-btn" onClick={handleGoBudget}>
+          <button className="secondary-nav-btn" onClick={() => navigate("/budget")}>
             Back
           </button>
-
           <button className="next-btn" onClick={handleNext}>
             Next &gt;
           </button>
@@ -185,9 +125,7 @@ export default function VenuePage() {
         <div className="modal-overlay">
           <div className="modal-card">
             <h2 className="modal-title">Leave without saving?</h2>
-            <p className="modal-text">
-              Your current progress may not be fully completed yet.
-            </p>
+            <p className="modal-text">Your current progress may not be fully completed yet.</p>
             <div className="modal-actions">
               <button className="secondary-nav-btn" onClick={() => setShowLeaveModal(false)}>
                 Continue Editing

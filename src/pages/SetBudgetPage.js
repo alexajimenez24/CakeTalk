@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressBar from "../components/ProgressBar";
 
 const DRAFT_KEY = "caketalk_cake_draft";
 
@@ -40,17 +41,10 @@ export default function SetBudgetPage() {
     navigate("/venue");
   };
 
-  const handleGoToVenue = () => {
-    saveDraft({ budget, weddingDate });
-    navigate("/venue");
-  };
-
   const handleDashboardConfirm = () => {
     setShowLeaveModal(false);
     navigate("/home");
   };
-
-  const steps = ["Budget", "Venue", "Flavor", "Fillings", "Design", "Submit"];
 
   const sliderPercent = (budget / 3000) * 100;
 
@@ -64,44 +58,22 @@ export default function SetBudgetPage() {
   return (
     <div className="budget-page">
 
-      {/* Top bar */}
       <div className="budget-topbar">
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-        <div className="progress-tracker">
-          {steps.map((step, index) => {
-            const isBudget = index === 0;
-            const isVenue  = index === 1;
-            return (
-              <div className="progress-step" key={step}>
-                <button
-                  className={`progress-circle ${isBudget ? "active" : ""}`}
-                  type="button"
-                  onClick={isVenue ? handleGoToVenue : undefined}
-                >
-                  {isBudget ? "✓" : ""}
-                </button>
-                <span className="progress-label">{step}</span>
-              </div>
-            );
-          })}
-        </div>
+        <ProgressBar currentStep="Budget" />
       </div>
 
-      {/* Main card */}
       <div className="budget-card">
 
-        {/* Header */}
         <div className="budget-header" style={{ marginBottom: "28px" }}>
           <h1 className="budget-title">Set Budget</h1>
           <p className="budget-subtitle">Adjust your budget with flexible options.</p>
         </div>
 
-        {/* Slider section */}
         <div style={{ position: "relative", marginBottom: "56px", paddingTop: "44px" }}>
 
-          {/* Floating bubble above thumb */}
           <div
             style={{
               position:      "absolute",
@@ -135,13 +107,11 @@ export default function SetBudgetPage() {
             }} />
           </div>
 
-          {/* Range labels */}
           <div className="slider-label-row">
             <span>$0</span>
             <span>$3,000</span>
           </div>
 
-          {/* Slider input */}
           <input
             type="range"
             min="0"
@@ -156,7 +126,6 @@ export default function SetBudgetPage() {
             }}
           />
 
-          {/* Marker ticks and labels */}
           <div style={{ position: "relative", marginTop: "10px", height: "36px" }}>
             {markers.map(({ label, value }) => {
               const pct = (value / 3000) * 100;
@@ -194,7 +163,6 @@ export default function SetBudgetPage() {
           </div>
         </div>
 
-        {/* Tips + Date side by side */}
         <div className="budget-bottom-section">
           <div className="budget-tips">
             <div className="tip-item">
@@ -219,7 +187,6 @@ export default function SetBudgetPage() {
           </div>
         </div>
 
-        {/* Nav */}
         <div className="card-nav-row">
           <button className="secondary-nav-btn" onClick={() => navigate("/home")}>
             Back
@@ -230,7 +197,6 @@ export default function SetBudgetPage() {
         </div>
       </div>
 
-      {/* Leave modal */}
       {showLeaveModal && (
         <div className="modal-overlay">
           <div className="modal-card">
