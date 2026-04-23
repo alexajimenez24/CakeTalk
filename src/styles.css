@@ -40,6 +40,96 @@ textarea {
   background: #f7f1e8;
 }
 
+.saved-detail-card {
+  max-width: 800px;
+  width: 90%;
+  padding: 40px;
+}
+
+.saved-detail-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.saved-detail-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180px;
+}
+
+.saved-detail-img {
+  width: 160px;
+  object-fit: contain;
+}
+
+.saved-detail-design-label {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.saved-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.saved-detail-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.detail-label {
+  font-weight: 600;
+  opacity: 0.6;
+  min-width: 120px;
+}
+
+.detail-value {
+  text-align: right;
+}
+
+.saved-detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+.hero-cake-img {
+  width: 200px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.cake-image {
+  width: 100%;
+  max-width: 300px;
+  object-fit: contain;
+}
+
+.mini-cake-img {
+  width: 80px;
+  object-fit: contain;
+}
+
+.mini-cake-label {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 4px;
+}
+
 .background-blur {
   position: absolute;
   border-radius: 50%;

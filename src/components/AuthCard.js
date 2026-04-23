@@ -1,5 +1,7 @@
 import React from "react";
 
+import cakeImage from "../cake_illustrations/3_flower_white.png";
+
 export default function AuthCard({
   mode,
   username,
@@ -21,16 +23,11 @@ export default function AuthCard({
         </div>
 
         <div className="cake-hero">
-          <div className="cake-shadow"></div>
-          <div className="cake-tier tier-bottom">
-            <div className="cake-line"></div>
-          </div>
-          <div className="cake-tier tier-middle">
-            <div className="cake-line"></div>
-          </div>
-          <div className="cake-tier tier-top">
-            <div className="cake-line"></div>
-          </div>
+          <img
+              src={cakeImage}
+              alt="Wedding cake"
+              className="cake-image"
+          />
         </div>
       </div>
 

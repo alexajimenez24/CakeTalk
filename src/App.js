@@ -29,7 +29,7 @@ export default function App() {
         }
       />
       <Route
-        path="/saved"
+        path="/saved/:id"
         element={
           <ProtectedRoute>
             <SavedCakesPage />

@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DRAFT_KEY = "caketalk_cake_draft";
 const SAVED_CAKES_KEY = "caketalk_saved_cakes";
+
+const designStyleMap = {
+  "classic-floral": "flower",
+  "vintage-piped": "vintage",
+  "garden-cascade": "garden",
+  "minimal-romance": "romance",
+  "modern-drip": "drip"
+};
 
 const designTitleMap = {
   "classic-floral": "Classic Floral",
@@ -18,123 +26,124 @@ const venueLabelMap = {
   "country-club": "Country Club"
 };
 
+const fillingLabelMap = {
+  pudding: "Pudding",
+  curd: "Curd",
+  jam: "Jam",
+  none: "None (defaults to frosting)"
+};
+
+function getCakeImage(design, tiers, colors) {
+  const style = designStyleMap[design];
+  const tier = tiers || 3;
+  const color = (colors && colors[0]) ? colors[0].toLowerCase() : "white";
+  if (!style) return null;
+  try {
+    return require(`../cake_illustrations/${tier}_${style}_${color}.png`);
+  } catch {
+    try {
+      return require(`../cake_illustrations/3_${style}_white.png`);
+    } catch {
+      return null;
+    }
+  }
+}
+
 export default function SavedCakesPage() {
   const navigate = useNavigate();
-  const [savedCakes, setSavedCakes] = useState([]);
+  const { id } = useParams();
+  const [cake, setCake] = useState(null);
 
   useEffect(() => {
-    const existingSavedCakes = JSON.parse(
-      localStorage.getItem(SAVED_CAKES_KEY) || "[]"
-    );
-    setSavedCakes(existingSavedCakes);
-  }, []);
+    const existing = JSON.parse(localStorage.getItem(SAVED_CAKES_KEY) || "[]");
+    const found = existing.find((c) => String(c.id) === String(id));
+    setCake(found || null);
+  }, [id]);
 
-  const handleBack = () => {
-    navigate("/home");
-  };
+  const handleBack = () => navigate("/home");
 
-  const handleEditCake = (cake) => {
-    const draftToLoad = {
-      ...cake,
-      savedCakeId: cake.id
-    };
-
+  const handleEdit = () => {
+    const draftToLoad = { ...cake, savedCakeId: cake.id };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(draftToLoad));
     navigate("/budget");
   };
 
-  const handleDeleteCake = (cakeId) => {
-    const updatedCakes = savedCakes.filter((cake) => cake.id !== cakeId);
-    localStorage.setItem(SAVED_CAKES_KEY, JSON.stringify(updatedCakes));
-    setSavedCakes(updatedCakes);
+  const handleDelete = () => {
+    const existing = JSON.parse(localStorage.getItem(SAVED_CAKES_KEY) || "[]");
+    const updated = existing.filter((c) => String(c.id) !== String(id));
+    localStorage.setItem(SAVED_CAKES_KEY, JSON.stringify(updated));
+    navigate("/home");
   };
+
+  if (!cake) {
+    return (
+      <div className="saved-page">
+        <div className="saved-page-card">
+          <p className="saved-page-text">Cake not found.</p>
+          <button className="oval-btn" onClick={handleBack}>Back</button>
+        </div>
+      </div>
+    );
+  }
+
+  const img = getCakeImage(cake.selectedDesign, cake.cakeTiers, cake.cakeColors);
+
+  const allFlavors = [
+    ...(cake.selectedFlavors || []),
+    ...(cake.otherFlavorEnabled && cake.otherFlavorText
+      ? [`Other: ${cake.otherFlavorText}`]
+      : cake.otherFlavorEnabled ? ["Other"] : [])
+  ];
 
   return (
     <div className="saved-page">
-      <div className="saved-page-card saved-page-card-wide">
-        <h1 className="saved-page-title">Saved Cakes</h1>
+      <div className="saved-page-card saved-detail-card">
 
-        {savedCakes.length === 0 ? (
-          <>
-            <p className="saved-page-text">You have no saved cakes yet.</p>
+        <div className="submit-topbar">
+          <button className="back-btn" onClick={handleBack}>Dashboard</button>
+        </div>
 
-            <button className="oval-btn" onClick={handleBack}>
-              Back
-            </button>
-          </>
-        ) : (
-          <>
-            <p className="saved-page-text">
-              Select a saved cake to continue editing.
+        <h1 className="saved-page-title">Cake Details</h1>
+
+        <div className="saved-detail-layout">
+
+          <div className="saved-detail-left">
+            {img ? (
+              <img
+                src={img}
+                alt={designTitleMap[cake.selectedDesign] || "Cake"}
+                className="saved-detail-img"
+              />
+            ) : (
+              <div className="mini-cake mini-cake-one" />
+            )}
+            <p className="saved-detail-design-label">
+              {designTitleMap[cake.selectedDesign] || "Custom Cake"}
             </p>
+          </div>
 
-            <div className="saved-cakes-list">
-              {savedCakes.map((cake) => (
-                <div className="saved-cake-item" key={cake.id}>
-                  <div className="saved-cake-item-main">
-                    <h2 className="saved-cake-item-title">
-                      {cake.title ||
-                        designTitleMap[cake.selectedDesign] ||
-                        "Custom Wedding Cake"}
-                    </h2>
+          <div className="saved-detail-right">
+            <ul className="saved-detail-list">
+              <li><span className="detail-label">Budget</span><span className="detail-value">{cake.budget ? `$${cake.budget}` : "Not set"}</span></li>
+              <li><span className="detail-label">Date</span><span className="detail-value">{cake.weddingDate || "Not set"}</span></li>
+              <li><span className="detail-label">Venue</span><span className="detail-value">{venueLabelMap[cake.venueType] || "Not selected"}</span></li>
+              <li><span className="detail-label">Venue Memo</span><span className="detail-value">{cake.venueMemo || "None"}</span></li>
+              <li><span className="detail-label">Flavors</span><span className="detail-value">{allFlavors.length ? allFlavors.join(", ") : "None"}</span></li>
+              <li><span className="detail-label">Filling</span><span className="detail-value">{fillingLabelMap[cake.selectedFilling] || "Not selected"}</span></li>
+              <li><span className="detail-label">Colors</span><span className="detail-value">{Array.isArray(cake.cakeColors) && cake.cakeColors.length ? cake.cakeColors.join(", ") : "None"}</span></li>
+              <li><span className="detail-label">Tiers</span><span className="detail-value">{cake.cakeTiers || "Not set"}</span></li>
+              <li><span className="detail-label">Extra Notes</span><span className="detail-value">{cake.extraNotes || "None"}</span></li>
+              <li><span className="detail-label">Special Requests</span><span className="detail-value">{cake.specialRequests || "None"}</span></li>
+              <li><span className="detail-label">Saved</span><span className="detail-value">{cake.savedAt ? new Date(cake.savedAt).toLocaleString() : "Unknown"}</span></li>
+            </ul>
 
-                    <ul className="saved-cake-meta">
-                      <li>
-                        <strong>Budget:</strong>{" "}
-                        {cake.budget ? `$${cake.budget}` : "Not set"}
-                      </li>
-                      <li>
-                        <strong>Date:</strong>{" "}
-                        {cake.weddingDate || "Not set"}
-                      </li>
-                      <li>
-                        <strong>Venue:</strong>{" "}
-                        {venueLabelMap[cake.venueType] || "Not selected"}
-                      </li>
-                      <li>
-                        <strong>Flavors:</strong>{" "}
-                        {Array.isArray(cake.selectedFlavors) &&
-                        cake.selectedFlavors.length
-                          ? cake.selectedFlavors.join(", ")
-                          : "None selected"}
-                      </li>
-                      <li>
-                        <strong>Design:</strong>{" "}
-                        {designTitleMap[cake.selectedDesign] || "Not selected"}
-                      </li>
-                      <li>
-                        <strong>Saved:</strong>{" "}
-                        {cake.savedAt
-                          ? new Date(cake.savedAt).toLocaleString()
-                          : "Unknown"}
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="saved-cake-actions">
-                    <button
-                      className="next-btn saved-cake-edit-btn"
-                      onClick={() => handleEditCake(cake)}
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      className="secondary-nav-btn saved-cake-delete-btn"
-                      onClick={() => handleDeleteCake(cake.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+            <div className="saved-detail-actions">
+              <button className="next-btn" onClick={handleEdit}>Edit</button>
+              <button className="next-btn" onClick={handleDelete}>Delete</button>
             </div>
+          </div>
 
-            <button className="oval-btn saved-cakes-back-btn" onClick={handleBack}>
-              Back
-            </button>
-          </>
-        )}
+        </div>
       </div>
     </div>
   );
