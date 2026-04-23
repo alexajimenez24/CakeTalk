@@ -7,19 +7,19 @@ const venueOptions = [
   {
     id: "banquet-hall",
     title: "Banquet Hall",
-    icon: "▭",
+    icon: "💎",
     bullets: ["Formal venue", "Indoor setting", "Great for larger receptions"]
   },
   {
     id: "outdoors",
     title: "Outdoors",
-    icon: "✿",
+    icon: "🌳",
     bullets: ["Backyard option", "Garden feel", "Beautiful natural setting"]
   },
   {
     id: "country-club",
     title: "Country Club",
-    icon: "⌂",
+    icon: "👑",
     bullets: ["Upscale atmosphere", "Private setting", "Polished presentation"]
   }
 ];
@@ -142,6 +142,7 @@ export default function VenuePage() {
               <div
                 key={venue.id}
                 className={`venue-option-card ${isSelected ? "selected" : ""}`}
+                onClick={() => handleSelectVenue(venue.id)}
               >
                 <h2 className="venue-option-title">{venue.title}</h2>
 
@@ -152,13 +153,6 @@ export default function VenuePage() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-
-                <button
-                  className="select-btn"
-                  onClick={() => handleSelectVenue(venue.id)}
-                >
-                  Select
-                </button>
 
                 {isSelected && (
                   <div className="memo-section">

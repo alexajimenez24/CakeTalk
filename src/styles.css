@@ -881,6 +881,13 @@ textarea {
   min-height: 420px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.venue-option-card:hover {
+  border-color: #8b6f58;
+  box-shadow: 0 0 0 2px rgba(139, 111, 88, 0.08);
 }
 
 .venue-option-card.selected {
