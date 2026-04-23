@@ -1059,37 +1059,37 @@ textarea {
   }
 
   .fillings-card {
-    max-width: 1280px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 34px 30px 38px;
+    padding: 24px 22px 26px;
     background: #fcf8f3;
     border: 2px solid #cbb8a3;
     border-radius: 24px;
   }
 
   .fillings-header {
-    margin-bottom: 28px;
+    margin-bottom: 12px;
   }
 
   .fillings-title {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 58px;
+    font-size: 38px;
     font-weight: 500;
     color: #392f28;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
   }
 
   .fillings-subtitle {
-    font-size: 24px;
+    font-size: 16px;
     color: #5b4f46;
   }
 
   .fillings-layout {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 28px;
-    margin-bottom: 28px;
-    align-items: start;
+    grid-template-columns: 1.0fr 1.0fr;
+    gap: 18px;
+    margin-bottom: 16px;
+    align-items: stretch;
   }
 
   .fillings-left-col {
@@ -1103,15 +1103,34 @@ textarea {
     background: #fffaf5;
     border: 2px solid #cbb8a3;
     border-radius: 18px;
-    padding: 20px;
+    padding: 12px;
   }
+
+.specification-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px;
+}
+
+.specification-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.specification-field.tiers-field {
+  grid-column: 2;
+}
+
+.specification-field.notes-field {
+  grid-column: 1 / span 2;
+}
 
   .fillings-menu-header,
   .specification-title {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 34px;
+    font-size: 24px;
     color: #392f28;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-weight: 500;
   }
 
@@ -1195,7 +1214,7 @@ textarea {
   }
 
   .specify-label {
-    font-size: 18px;
+    font-size: 16px;
     color: #5a4d43;
     min-width: 62px;
   }
@@ -1209,6 +1228,7 @@ textarea {
     background: #fffdfb;
     color: #2f2a26;
     outline: none;
+    width: 85%;
   }
 
   .specification-field {
@@ -1219,7 +1239,7 @@ textarea {
   }
 
   .specification-field label {
-    font-size: 28px;
+    font-size: 20px;
     font-family: Georgia, "Times New Roman", serif;
     color: #43372f;
   }
@@ -1264,7 +1284,7 @@ textarea {
 
   .extra-notes-input {
     width: 100%;
-    min-height: 140px;
+    min-height: 60px;
     border: 2px solid #d8cec3;
     border-radius: 12px;
     padding: 12px 14px;
