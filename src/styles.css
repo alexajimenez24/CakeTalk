@@ -2044,7 +2044,7 @@ textarea {
   .thank-you-card {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 34px 30px 38px;
+    padding: 30px 30px 38px;
     background: #fcf8f3;
     border: 2px solid #cbb8a3;
     border-radius: 24px;
@@ -2052,8 +2052,8 @@ textarea {
 
   .thank-you-layout {
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: 32px;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
     align-items: start;
   }
 
@@ -2061,7 +2061,7 @@ textarea {
   .thank-you-right {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
   }
 
   .thank-you-header {
@@ -2070,17 +2070,16 @@ textarea {
 
   .thank-you-title {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 58px;
+    font-size: 48px;
     font-weight: 500;
     color: #392f28;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
 
   .thank-you-subtitle {
-    font-size: 24px;
+    font-size: 30px;
     color: #5b4f46;
     line-height: 1.5;
-    max-width: 560px;
   }
 
   .thank-you-preview-card,
@@ -2097,12 +2096,13 @@ textarea {
     align-items: center;
     justify-content: center;
     min-height: 500px;
+    max-height: 600px;
   }
 
   .thank-you-preview {
     width: 100%;
     max-width: 360px;
-    height: 360px;
+    height: 320px;
     margin: 0 auto;
   }
 

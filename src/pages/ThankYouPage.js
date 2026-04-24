@@ -237,15 +237,15 @@ export default function ThankYouPage() {
       </div>
 
       <div className="thank-you-card">
+        <div className="thank-you-header">
+          <h1 className ="thank-you-title">Thank You</h1>
+          <p clasName="thank-you-subtitle">
+            Your cake design is ready. You can download it, save it to your profile, or send it to a bakery.
+          </p>
+        </div>
+
         <div className="thank-you-layout">
           <div className="thank-you-left">
-            <div className="thank-you-header">
-              <h1 className="thank-you-title">Thank You</h1>
-              <p className="thank-you-subtitle">
-                Your cake design is ready. You can download it, save it to your
-                profile, or send it to a bakery.
-              </p>
-            </div>
 
             <div className="thank-you-preview-card">
               {(() => {
