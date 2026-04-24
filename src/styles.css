@@ -1589,7 +1589,6 @@ textarea {
     bottom: 126px;
   }
 
-  /* Classic Floral */
   .design-cake-visual.classic .classic-flower {
     position: absolute;
     right: 34px;
@@ -1615,7 +1614,6 @@ textarea {
     transform: rotate(18deg);
   }
 
-  /* Vintage Piped */
   .design-cake-visual.vintage .design-tier.middle,
   .design-cake-visual.vintage .design-tier.top {
     display: none;
@@ -1658,7 +1656,6 @@ textarea {
     right: 10px;
   }
 
-  /* Garden Cascade */
   .design-cake-visual.cascade .cascade-flowers {
     position: absolute;
     right: 24px;
@@ -1688,7 +1685,6 @@ textarea {
       8px 18px 0 #dfc2a8;
   }
 
-  /* Minimal Romance */
   .design-cake-visual.minimal .design-tier.top {
     display: none;
   }
@@ -1719,7 +1715,6 @@ textarea {
       18px 2px 0 #c6ad91;
   }
 
-  /* Modern Drip */
   .design-cake-visual.drip .design-tier.top {
     display: none;
   }
@@ -1776,12 +1771,11 @@ textarea {
     line-height: 1.2;
   }
 
-  .submit-page {
-    min-height: 100vh;
+ .submit-page {
+    min-height: 60vh;
     background: #f7f1e8;
-    padding: 28px 34px 40px;
+    padding: 16px 16px 16px;
   }
-
   .submit-topbar {
     max-width: 1280px;
     margin: 0 auto 20px;
@@ -1790,40 +1784,34 @@ textarea {
     justify-content: space-between;
     gap: 20px;
   }
-
   .submit-card {
-    max-width: 1280px;
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 34px 30px 38px;
+    padding: 16px 38px 16px;
     background: #fcf8f3;
     border: 2px solid #cbb8a3;
     border-radius: 24px;
   }
-
   .submit-header {
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
-
   .submit-title {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 58px;
+    font-size: 44px;
     font-weight: 500;
     color: #392f28;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
-
   .submit-subtitle {
-    font-size: 24px;
+    font-size: 20px;
     color: #5b4f46;
   }
-
   .submit-layout {
     display: grid;
     grid-template-columns: 0.95fr 1.05fr;
-    gap: 32px;
-    margin-bottom: 28px;
+    gap: 16px;
+    margin-bottom: 16px;
   }
-
   .submit-design-preview {
     background: #fffaf5;
     border: 2px solid #cbb8a3;
@@ -1833,9 +1821,9 @@ textarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 620px;
+    min-height: 360px;
+    max-height: 640px;
   }
-
 
   .submit-design-label {
     margin-top: 12px;
@@ -1844,38 +1832,50 @@ textarea {
     color: #3d322b;
     text-align: center;
   }
-
   .submit-summary-panel {
     display: flex;
     flex-direction: column;
     gap: 22px;
   }
-
   .summary-box,
   .special-requests-box {
     background: #fffaf5;
     border: 2px solid #cbb8a3;
     border-radius: 18px;
-    padding: 20px;
+    padding: 12px;
   }
-
   .summary-title {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 34px;
+    font-size: 28px;
     color: #392f28;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
   }
-
-  .summary-list {
+  /*.summary-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 4px;
     color: #4f433b;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6;
-  }
+  } */
 
+  .summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-list li {
+  display: flex;
+  justify-content: space-between;
+  gap:20px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
   .special-requests-label {
     display: block;
     font-family: Georgia, "Times New Roman", serif;
@@ -1883,10 +1883,9 @@ textarea {
     color: #392f28;
     margin-bottom: 14px;
   }
-
   .special-requests-input {
     width: 100%;
-    min-height: 180px;
+    min-height: 60px;
     border: 2px solid #d8cec3;
     border-radius: 12px;
     padding: 14px 16px;
@@ -1895,55 +1894,46 @@ textarea {
     resize: vertical;
     outline: none;
   }
-
   .special-requests-input:focus {
     border-color: #9d8169;
     box-shadow: 0 0 0 4px rgba(157, 129, 105, 0.12);
   }
-
   .submit-preview {
     width: 100%;
     max-width: 420px;
     height: 420px;
     margin: 0 auto;
   }
-
   .submit-preview .design-cake-base {
     width: 180px;
     height: 18px;
     bottom: 48px;
   }
-
   .submit-preview .design-cake-stand {
     width: 42px;
     height: 34px;
     bottom: 20px;
   }
-
   .submit-preview .design-cake-stand::after {
     width: 96px;
     height: 16px;
     bottom: -12px;
   }
-
   .submit-preview .design-tier.bottom {
     width: 170px;
     height: 74px;
     bottom: 64px;
   }
-
   .submit-preview .design-tier.middle {
     width: 122px;
     height: 56px;
     bottom: 128px;
   }
-
   .submit-preview .design-tier.top {
     width: 82px;
     height: 42px;
     bottom: 178px;
   }
-
   /* Classic Floral preview */
   .submit-preview.classic .classic-flower {
     right: 92px;
@@ -1955,26 +1945,22 @@ textarea {
       9px 15px 0 #d2b79e,
       9px -15px 0 #c0a387;
   }
-
   .submit-preview.classic .classic-flower::after {
     left: -10px;
     top: 24px;
     height: 34px;
   }
-
   /* Vintage preview */
   .submit-preview.vintage .design-tier.bottom {
     width: 140px;
     height: 82px;
     bottom: 72px;
   }
-
   .submit-preview.vintage .piped-accent {
     width: 118px;
     height: 22px;
     bottom: 96px;
   }
-
   /* Garden Cascade preview */
   .submit-preview.cascade .cascade-flowers {
     right: 88px;
@@ -1987,7 +1973,6 @@ textarea {
       8px 84px 0 #d5baa1,
       -4px 112px 0 #b49678;
   }
-
   .submit-preview.cascade .cascade-flowers::before {
     left: -14px;
     top: -20px;
@@ -1997,20 +1982,17 @@ textarea {
       20px 8px 0 #b8997b,
       12px 24px 0 #dfc2a8;
   }
-
   /* Minimal preview */
   .submit-preview.minimal .design-tier.bottom {
     width: 168px;
     height: 70px;
     bottom: 68px;
   }
-
   .submit-preview.minimal .design-tier.middle {
     width: 124px;
     height: 54px;
     bottom: 132px;
   }
-
   .submit-preview.minimal .minimal-flowers {
     bottom: 188px;
     width: 28px;
@@ -2019,31 +2001,26 @@ textarea {
       -22px 2px 0 #c6ad91,
       22px 2px 0 #c6ad91;
   }
-
   /* Drip preview */
   .submit-preview.drip .design-tier.bottom {
     width: 166px;
     height: 70px;
     bottom: 68px;
   }
-
   .submit-preview.drip .design-tier.middle {
     width: 124px;
     height: 54px;
     bottom: 132px;
   }
-
   .submit-preview.drip .drip-lines {
     width: 122px;
     height: 22px;
     bottom: 146px;
   }
-
   .submit-preview.drip .drip-lines::before {
     left: 22px;
     height: 22px;
   }
-
   .submit-preview.drip .drip-lines::after {
     right: 22px;
     height: 32px;
