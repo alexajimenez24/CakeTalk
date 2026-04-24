@@ -123,10 +123,11 @@ export default function FillingsPage() {
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-        <ProgressBar currentStep="Fillings" />
       </div>
 
       <div className="fillings-card">
+        <ProgressBar currentStep="Fillings" />
+
         <div className="fillings-header">
           <h1 className="fillings-title">Choose Extras</h1>
           <p className="fillings-subtitle">

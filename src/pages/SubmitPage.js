@@ -5,16 +5,16 @@ import ProgressBar from "../components/ProgressBar";
 const DRAFT_KEY = "caketalk_cake_draft";
 
 const designStyleMap = {
-  "classic-floral": "flower",
-  "vintage-piped": "vintage",
-  "garden-cascade": "garden",
+  "classic-floral":  "flower",
+  "vintage-piped":   "vintage",
+  "garden-cascade":  "garden",
   "minimal-romance": "romance",
-  "modern-drip": "drip"
+  "modern-drip":     "drip"
 };
 
 function getCakeImage(design, tiers, colors) {
   const style = designStyleMap[design];
-  const tier = tiers || 3;
+  const tier  = tiers || 3;
   const color = (colors && colors[0]) ? colors[0].toLowerCase() : "white";
   if (!style) return null;
   try {
@@ -26,23 +26,23 @@ function getCakeImage(design, tiers, colors) {
 
 const venueLabelMap = {
   "banquet-hall": "Banquet Hall",
-  outdoors: "Outdoors",
+  outdoors:       "Outdoors",
   "country-club": "Country Club"
 };
 
 const fillingLabelMap = {
   pudding: "Pudding",
-  curd: "Curd",
-  jam: "Jam",
-  none: "None (defaults to frosting)"
+  curd:    "Curd",
+  jam:     "Jam",
+  none:    "None (defaults to frosting)"
 };
 
 const designTitleMap = {
-  "classic-floral": "Classic Floral",
-  "vintage-piped": "Vintage Piped",
-  "garden-cascade": "Garden Cascade",
+  "classic-floral":  "Classic Floral",
+  "vintage-piped":   "Vintage Piped",
+  "garden-cascade":  "Garden Cascade",
   "minimal-romance": "Minimal Romance",
-  "modern-drip": "Modern Drip"
+  "modern-drip":     "Modern Drip"
 };
 
 export default function SubmitPage() {
@@ -92,10 +92,11 @@ export default function SubmitPage() {
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-        <ProgressBar currentStep="Submit" />
       </div>
 
       <div className="submit-card">
+        <ProgressBar currentStep="Submit" />
+
         <div className="submit-header">
           <h1 className="submit-title">Review Your Cake</h1>
           <p className="submit-subtitle">Review your selections before confirming.</p>

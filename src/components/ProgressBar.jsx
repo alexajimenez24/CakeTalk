@@ -1,4 +1,3 @@
-// src/components/ProgressBar.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,16 +19,18 @@ export default function ProgressBar({ currentStep }) {
       {STEPS.map((step, index) => {
         const isDone    = index < currentIndex;
         const isCurrent = index === currentIndex;
-        const isActive  = isDone || isCurrent;
-        const handleClick = isDone ? () => navigate(step.path) : undefined;
 
         return (
-          <div className="progress-step" key={step.label}>
+          <div
+            className={`progress-step${isDone ? " done" : isCurrent ? " current" : ""}`}
+            key={step.label}
+          >
             <button
-              className={`progress-circle ${isActive ? "active" : ""}`}
+              className={`progress-circle${isDone ? " done" : isCurrent ? " current" : ""}`}
               type="button"
-              onClick={handleClick}
+              onClick={isDone ? () => navigate(step.path) : undefined}
               style={{ cursor: isDone ? "pointer" : "default" }}
+              title={isDone ? `Go back to ${step.label}` : undefined}
             >
               {isDone ? "✓" : ""}
             </button>

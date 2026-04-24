@@ -70,10 +70,11 @@ export default function VenuePage() {
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-        <ProgressBar currentStep="Venue" />
       </div>
 
       <div className="venue-card">
+        <ProgressBar currentStep="Venue" />
+
         <div className="venue-header">
           <h1 className="venue-title">Venue Type</h1>
           <p className="venue-subtitle">Pick where your cake will be served.</p>

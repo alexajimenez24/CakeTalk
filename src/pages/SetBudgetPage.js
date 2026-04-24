@@ -57,15 +57,14 @@ export default function SetBudgetPage() {
 
   return (
     <div className="budget-page">
-
       <div className="budget-topbar">
         <button className="back-btn" onClick={() => setShowLeaveModal(true)}>
           Dashboard
         </button>
-        <ProgressBar currentStep="Budget" />
       </div>
 
       <div className="budget-card">
+        <ProgressBar currentStep="Budget" />
 
         <div className="budget-header" style={{ marginBottom: "28px" }}>
           <h1 className="budget-title">Set Budget</h1>
@@ -73,7 +72,6 @@ export default function SetBudgetPage() {
         </div>
 
         <div style={{ position: "relative", marginBottom: "56px", paddingTop: "44px" }}>
-
           <div
             style={{
               position:      "absolute",
@@ -143,17 +141,10 @@ export default function SetBudgetPage() {
                     gap:           "3px",
                   }}
                 >
-                  <div style={{
-                    width:        "2px",
-                    height:       "8px",
-                    background:   "#b7977b",
-                    borderRadius: "1px",
-                  }} />
+                  <div style={{ width: "2px", height: "8px", background: "#b7977b", borderRadius: "1px" }} />
                   <span style={{
-                    fontSize:   "14px",
-                    color:      "#6b5a4e",
-                    fontFamily: "Georgia, 'Times New Roman', serif",
-                    whiteSpace: "nowrap",
+                    fontSize: "14px", color: "#6b5a4e",
+                    fontFamily: "Georgia, 'Times New Roman', serif", whiteSpace: "nowrap",
                   }}>
                     {label}
                   </span>
