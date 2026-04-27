@@ -56,7 +56,7 @@ export default function FillingsPage() {
     if (draft.fillingSpec)      setFillingSpec(draft.fillingSpec);
     if (draft.selectedFrosting) setSelectedFrosting(draft.selectedFrosting);
     if (draft.frostingSpec)     setFrostingSpec(draft.frostingSpec);
-    if (draft.cakeColor)        setCakeColor(draft.cakeColor);
+    if (draft.cakeColors?.[0]) setCakeColor(draft.cakeColors[0]);
     if (draft.cakeTiers)        setTiers(draft.cakeTiers);
     if (draft.extraNotes)       setExtraNotes(draft.extraNotes);
   }, []);
@@ -73,7 +73,7 @@ export default function FillingsPage() {
     const existing = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
     const updated = {
       ...existing, selectedFilling, fillingSpec, selectedFrosting,
-      frostingSpec, cakeColor, cakeTiers: tiers, extraNotes, ...overrides,
+      frostingSpec, cakeColors: cakeColor ? [cakeColor] : [], cakeTiers: tiers, extraNotes, ...overrides,
     };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(updated));
   };
@@ -100,7 +100,7 @@ export default function FillingsPage() {
     const newVal = cakeColor === color ? "" : color;
     setCakeColor(newVal);
     setShowColorMenu(false);
-    saveDraft({ cakeColor: newVal });
+    saveDraft({ cakeColors: newVal ? [newVal] : [] });
   };
 
   const incrementTiers = () => {
